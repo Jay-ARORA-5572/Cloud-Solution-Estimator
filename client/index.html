@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Solution Estimator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">CSE</span>
+        <div class="brand-text">
+          <h1>Cloud Solution Estimator</h1>
+          <p>Pricing · Architecture · Proposal — in one pass</p>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <span id="statusPill" class="status-pill">Draft</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- LEFT: Input form -->
+      <section class="panel form-panel">
+        <div class="panel-header">
+          <span class="step-index">01</span>
+          <h2>Scope the workload</h2>
+        </div>
+
+        <label class="field">
+          <span>Client name</span>
+          <input type="text" id="clientName" placeholder="e.g. Meridian Retail Pvt Ltd" />
+        </label>
+
+        <label class="field">
+          <span>Workload type</span>
+          <select id="workloadSelect"></select>
+          <span class="field-hint" id="workloadHint"></span>
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span>Cloud provider</span>
+            <div class="segmented" id="cloudSegmented">
+              <button type="button" class="seg-btn active" data-cloud="AWS">AWS</button>
+              <button type="button" class="seg-btn" data-cloud="GCP">GCP</button>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Deployment scale</span>
+            <div class="segmented" id="scaleSegmented">
+              <button type="button" class="seg-btn" data-scale="small">Small</button>
+              <button type="button" class="seg-btn active" data-scale="medium">Medium</button>
+              <button type="button" class="seg-btn" data-scale="large">Large</button>
+            </div>
+          </label>
+        </div>
+
+        <div class="field">
+          <span>Services included</span>
+          <div id="servicesList" class="services-list"></div>
+        </div>
+
+        <label class="field">
+          <span>Notes / open items <em>(optional)</em></span>
+          <textarea id="notesInput" rows="2" placeholder="e.g. Final headcount and data volume TBD after discovery call."></textarea>
+        </label>
+      </section>
+
+      <!-- RIGHT: Live preview -->
+      <section class="panel preview-panel">
+        <div class="panel-header">
+          <span class="step-index">02</span>
+          <h2>Proposed architecture</h2>
+        </div>
+        <div id="architectureDiagram" class="architecture-diagram"></div>
+
+        <div class="panel-header panel-header-tight">
+          <span class="step-index">03</span>
+          <h2>Cost estimate</h2>
+        </div>
+        <table class="cost-table">
+          <thead>
+            <tr><th>Service</th><th>Purpose</th><th class="num">Monthly</th></tr>
+          </thead>
+          <tbody id="costTableBody"></tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td colspan="2">Estimated monthly total</td>
+              <td class="num" id="monthlyTotal">$0.00</td>
+            </tr>
+            <tr class="total-row secondary">
+              <td colspan="2">Estimated annual total</td>
+              <td class="num" id="annualTotal">$0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="export-row">
+          <button id="exportPdfBtn" class="btn btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Export proposal (PDF)
+          </button>
+          <button id="exportExcelBtn" class="btn btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Export estimate (Excel)
+          </button>
+        </div>
+        <p class="disclaimer">Figures are indicative, based on published list pricing — not a formal quote.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "cloud-solution-estimator",
+  "version": "1.0.0",
+  "description": "A pre-sales toolkit that generates AWS/GCP pricing estimates, architecture diagrams, and client-ready proposal one-pagers from a guided workload input form.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "pdfkit": "^0.15.0",
+    "exceljs": "^4.4.0"
+  }
+}

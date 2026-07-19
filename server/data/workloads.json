@@ -1,0 +1,34 @@
+{
+  "web-app-migration": {
+    "label": "Web App Migration",
+    "description": "Lift-and-shift or re-platform of an existing web application to the cloud.",
+    "recommended": {
+      "AWS": ["EC2", "RDS", "S3", "Lambda"],
+      "GCP": ["ComputeEngine", "CloudSQL", "CloudStorage", "CloudFunctions"]
+    }
+  },
+  "genai-chatbot": {
+    "label": "GenAI Chatbot",
+    "description": "Conversational AI assistant backed by a managed foundation model.",
+    "recommended": {
+      "AWS": ["Bedrock", "Lambda", "S3"],
+      "GCP": ["VertexAI", "CloudFunctions", "CloudStorage"]
+    }
+  },
+  "data-pipeline": {
+    "label": "Data Pipeline",
+    "description": "Automated ingestion, transformation, and storage of business data.",
+    "recommended": {
+      "AWS": ["S3", "Lambda", "RDS"],
+      "GCP": ["CloudStorage", "CloudFunctions", "CloudSQL"]
+    }
+  },
+  "healthcare-ai": {
+    "label": "Healthcare AI",
+    "description": "ML-driven diagnostics or triage platform on top of clinical data.",
+    "recommended": {
+      "AWS": ["SageMaker", "S3", "RDS"],
+      "GCP": ["VertexAI", "CloudStorage", "CloudSQL"]
+    }
+  }
+}
