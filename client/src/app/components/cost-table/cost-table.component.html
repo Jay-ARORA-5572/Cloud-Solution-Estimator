@@ -1,0 +1,22 @@
+<table class="cost-table">
+  <thead>
+    <tr><th>Service</th><th>Purpose</th><th class="num">Monthly</th></tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of estimate?.lineItems">
+      <td>{{ item.label }}</td>
+      <td class="svc-desc-cell">{{ item.desc }}</td>
+      <td class="num">{{ item.monthlyCost | currency }}</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr class="total-row">
+      <td colspan="2">Estimated monthly total</td>
+      <td class="num">{{ (estimate?.monthlyTotal ?? 0) | currency }}</td>
+    </tr>
+    <tr class="total-row secondary">
+      <td colspan="2">Estimated annual total</td>
+      <td class="num">{{ (estimate?.annualTotal ?? 0) | currency }}</td>
+    </tr>
+  </tfoot>
+</table>

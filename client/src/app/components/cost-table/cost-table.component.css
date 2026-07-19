@@ -1,0 +1,32 @@
+.cost-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.cost-table th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--slate);
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--line);
+}
+.cost-table td {
+  padding: 9px 6px;
+  border-bottom: 1px solid #f0f1f4;
+}
+.cost-table .num { text-align: right; font-family: var(--mono); }
+.cost-table .svc-desc-cell { color: var(--slate); font-size: 12px; }
+
+.total-row td {
+  font-weight: 700;
+  border-bottom: none;
+  padding-top: 12px;
+}
+.total-row.secondary td {
+  font-weight: 500;
+  color: var(--slate);
+  padding-top: 2px;
+  font-size: 12px;
+}

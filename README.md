@@ -24,36 +24,55 @@ _Add a screenshot of the running app here before sharing the repo._
 
 ## Tech stack
 
-- **Frontend:** HTML, CSS, vanilla JavaScript (no framework — kept deliberately lightweight
-  so the whole tool could ship in a few days)
+- **Frontend:** Angular 17 (standalone components, no NgModules)
 - **Backend:** Node.js, Express
 - **PDF generation:** [pdfkit](https://github.com/foliojs/pdfkit)
 - **Excel generation:** [exceljs](https://github.com/exceljs/exceljs)
 
 ## Running locally
 
+The Angular app needs to be built once before the Express server can serve it.
+
 ```bash
+# 1. Build the Angular frontend
+npm run build:client
+
+# 2. Install server dependencies and start
 npm install
 npm start
 ```
 
 Then open `http://localhost:4000`.
 
+For frontend development with hot reload instead, run the Angular dev server directly:
+
+```bash
+cd client
+npm install
+npm start        # serves on http://localhost:4200, proxies /api calls are not configured —
+                  # run the Express server separately on :4000 for API responses
+```
+
 ## Project structure
 
 ```
 server/
-  index.js              # Express app entry point
-  routes/api.js          # /api/catalog, /api/estimate, /api/export/pdf, /api/export/excel
-  data/pricing.json       # Per-service monthly pricing at small/medium/large scale
-  data/workloads.json     # Workload templates (Web App Migration, GenAI Chatbot, etc.)
-  utils/estimate.js       # Cost calculation logic
-  utils/pdfGenerator.js   # One-page proposal PDF renderer
-  utils/excelGenerator.js # Cost breakdown Excel export
-client/
-  index.html
-  style.css
-  app.js                 # Fetches the catalog, renders the form, diagram, and cost table
+  index.js                # Express app entry point — also serves the built Angular app
+  routes/api.js            # /api/catalog, /api/estimate, /api/export/pdf, /api/export/excel
+  data/pricing.json         # Per-service monthly pricing at small/medium/large scale
+  data/workloads.json       # Workload templates (Web App Migration, GenAI Chatbot, etc.)
+  utils/estimate.js         # Cost calculation logic
+  utils/pdfGenerator.js     # One-page proposal PDF renderer
+  utils/excelGenerator.js   # Cost breakdown Excel export
+client/                    # Angular 17 app (standalone components)
+  src/app/
+    app.component.ts        # Root component — fetches the catalog, holds current estimate
+    models/estimate.model.ts
+    services/estimator-api.service.ts   # HttpClient calls to the Express API
+    components/
+      workload-form/            # Client name, workload, cloud/scale, service checklist
+      architecture-diagram/     # Renders the boxes-and-arrows diagram
+      cost-table/                # Line items + monthly/annual totals
 ```
 
 ## Notes & limitations

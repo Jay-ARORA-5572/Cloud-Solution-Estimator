@@ -1,0 +1,47 @@
+.architecture-diagram {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 20px 6px 26px;
+  min-height: 96px;
+}
+
+.arch-node {
+  flex: 0 0 auto;
+  min-width: 118px;
+  border-radius: 9px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--accent);
+  background: var(--accent-soft);
+  text-align: center;
+}
+.arch-node.aws { border-color: var(--aws-color); background: var(--aws-soft); }
+.arch-node.gcp { border-color: var(--gcp-color); background: var(--gcp-soft); }
+
+.arch-label { font-size: 12px; font-weight: 700; color: var(--ink); }
+.arch-desc { font-size: 10.5px; color: var(--slate); margin-top: 2px; }
+
+.arch-arrow {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 2px;
+  background: var(--slate);
+  position: relative;
+  opacity: 0.5;
+}
+.arch-arrow::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -3px;
+  border-left: 6px solid var(--slate);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.arch-empty {
+  font-size: 13px;
+  color: var(--slate);
+  padding: 10px 4px;
+}

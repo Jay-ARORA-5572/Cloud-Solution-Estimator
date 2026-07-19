@@ -11,10 +11,11 @@ app.use(express.json());
 
 app.use("/api", apiRouter);
 
-// Serve the static frontend
-app.use(express.static(path.join(__dirname, "..", "client")));
+// Serve the built Angular app (run `npm run build:client` first — see README)
+const clientDist = path.join(__dirname, "..", "client", "dist", "browser");
+app.use(express.static(clientDist));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+  res.sendFile(path.join(clientDist, "index.html"));
 });
 
 app.listen(PORT, () => {

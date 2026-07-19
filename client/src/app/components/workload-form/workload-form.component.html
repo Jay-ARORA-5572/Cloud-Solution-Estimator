@@ -1,0 +1,76 @@
+<label class="field">
+  <span>Client name</span>
+  <input
+    type="text"
+    placeholder="e.g. Meridian Retail Pvt Ltd"
+    [(ngModel)]="clientName"
+    (ngModelChange)="emitChange()"
+  />
+</label>
+
+<label class="field">
+  <span>Workload type</span>
+  <select [(ngModel)]="workloadKey" (ngModelChange)="selectWorkload($event)">
+    <option *ngFor="let key of workloadKeys" [value]="key">
+      {{ catalog!.workloads[key].label }}
+    </option>
+  </select>
+  <span class="field-hint">{{ workloadHint }}</span>
+</label>
+
+<div class="field-row">
+  <label class="field">
+    <span>Cloud provider</span>
+    <div class="segmented">
+      <button
+        type="button"
+        *ngFor="let c of clouds"
+        class="seg-btn"
+        [class.active]="cloud === c"
+        (click)="selectCloud(c)"
+      >{{ c }}</button>
+    </div>
+  </label>
+
+  <label class="field">
+    <span>Deployment scale</span>
+    <div class="segmented">
+      <button
+        type="button"
+        *ngFor="let s of scales"
+        class="seg-btn"
+        [class.active]="scale === s"
+        (click)="selectScale(s)"
+      >{{ s | titlecase }}</button>
+    </div>
+  </label>
+</div>
+
+<div class="field">
+  <span>Services included</span>
+  <div class="services-list">
+    <label
+      class="service-item"
+      *ngFor="let entry of servicesForCloud"
+      [class.checked]="isChecked(entry[0])"
+    >
+      <input
+        type="checkbox"
+        [checked]="isChecked(entry[0])"
+        (change)="toggleService(entry[0])"
+      />
+      <span class="svc-label">{{ entry[1].label }}</span>
+      <span class="svc-desc">{{ entry[1].desc }}</span>
+    </label>
+  </div>
+</div>
+
+<label class="field">
+  <span>Notes / open items <em>(optional)</em></span>
+  <textarea
+    rows="2"
+    placeholder="e.g. Final headcount and data volume TBD after discovery call."
+    [(ngModel)]="notes"
+    (ngModelChange)="emitChange()"
+  ></textarea>
+</label>

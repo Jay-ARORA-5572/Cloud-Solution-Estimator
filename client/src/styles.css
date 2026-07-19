@@ -1,0 +1,28 @@
+:root {
+  --navy: #16213b;
+  --ink: #1f2937;
+  --slate: #6b7280;
+  --line: #e2e5ea;
+  --bg: #f3f5f9;
+  --card: #ffffff;
+  --accent: #2f5fe0;
+  --accent-soft: #e7edff;
+  --aws-color: #d97706;
+  --aws-soft: #fef3e2;
+  --gcp-color: #0f9d68;
+  --gcp-soft: #e5f7ee;
+  --mono: 'JetBrains Mono', 'SFMono-Regular', monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  background-image: radial-gradient(circle at 1px 1px, rgba(22, 33, 59, 0.06) 1px, transparent 0);
+  background-size: 22px 22px;
+}

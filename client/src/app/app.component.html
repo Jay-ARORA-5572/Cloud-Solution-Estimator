@@ -1,0 +1,57 @@
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">CSE</span>
+      <div class="brand-text">
+        <h1>Cloud Solution Estimator</h1>
+        <p>Pricing · Architecture · Proposal — in one pass</p>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span class="status-pill">{{ statusLabel }}</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel">
+      <div class="panel-header">
+        <span class="step-index">01</span>
+        <h2>Scope the workload</h2>
+      </div>
+      <app-workload-form [catalog]="catalog" (formChange)="onFormChange($event)"></app-workload-form>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="panel-header">
+        <span class="step-index">02</span>
+        <h2>Proposed architecture</h2>
+      </div>
+      <app-architecture-diagram
+        [lineItems]="estimate?.lineItems ?? []"
+        [cloud]="currentRequest?.cloud ?? 'AWS'"
+      ></app-architecture-diagram>
+
+      <div class="panel-header panel-header-tight">
+        <span class="step-index">03</span>
+        <h2>Cost estimate</h2>
+      </div>
+      <app-cost-table [estimate]="estimate"></app-cost-table>
+
+      <div class="export-row">
+        <button class="btn btn-primary" (click)="exportPdf()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Export proposal (PDF)
+        </button>
+        <button class="btn btn-secondary" (click)="exportExcel()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Export estimate (Excel)
+        </button>
+      </div>
+      <p class="disclaimer">Figures are indicative, based on published list pricing — not a formal quote.</p>
+    </section>
+  </main>
+</div>
