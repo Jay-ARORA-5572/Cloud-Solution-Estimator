@@ -1,0 +1,84 @@
+.tracker-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.manual-add { display: flex; gap: 8px; }
+.manual-add input {
+  font-family: var(--sans);
+  font-size: 13px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fbfcfe;
+  outline: none;
+  min-width: 180px;
+}
+.manual-add input:focus { border-color: var(--accent); background: #fff; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.deal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.deal-table th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--slate);
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--line);
+}
+.deal-table td { padding: 9px 6px; border-bottom: 1px solid #f0f1f4; vertical-align: middle; }
+.deal-table .muted { color: var(--slate); }
+.deal-table .num { font-family: var(--mono); }
+
+.deal-table select {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: #fbfcfe;
+  cursor: pointer;
+}
+.stage-Discovery { color: var(--accent); }
+.stage-ProposalSent { color: #d97706; }
+.stage-Won { color: #0f9d68; }
+.stage-Lost { color: #dc2626; }
+
+.remove-btn {
+  border: none;
+  background: transparent;
+  color: var(--slate);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+.remove-btn:hover { background: #fee2e2; color: #dc2626; }
+
+.empty-state {
+  font-size: 13px;
+  color: var(--slate);
+  padding: 24px 4px;
+  text-align: center;
+}

@@ -4,7 +4,7 @@ const router = express.Router();
 const pricing = require("../data/pricing.json");
 const workloads = require("../data/workloads.json");
 const { computeEstimate } = require("../utils/estimate");
-const { generateProposalPdf } = require("../utils/pdfGenerator");
+const { generateProposalPdf, generateDiscoveryPdf } = require("../utils/pdfGenerator");
 const { generateEstimateExcel } = require("../utils/excelGenerator");
 
 // GET /api/catalog - pricing catalog + workload templates, for populating the form
@@ -40,6 +40,23 @@ router.post("/export/excel", async (req, res) => {
     const { cloud, scale, services, workloadKey, clientName } = req.body;
     const estimate = computeEstimate({ cloud, scale, services, workloadKey });
     await generateEstimateExcel(res, { estimate, clientName });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// POST /api/export/discovery-pdf - stream a discovery call notes PDF
+router.post("/export/discovery-pdf", (req, res) => {
+  try {
+    const { workloadKey, clientName, questions } = req.body;
+    const workload = workloads[workloadKey];
+    if (!workload) {
+      return res.status(400).json({ error: `Unknown workload "${workloadKey}"` });
+    }
+    if (!Array.isArray(questions) || questions.length === 0) {
+      return res.status(400).json({ error: "questions array is required" });
+    }
+    generateDiscoveryPdf(res, { workloadLabel: workload.label, clientName, questions });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Catalog, EstimateRequest, EstimateResult } from '../models/estimate.model';
+import { DiscoveryExportRequest } from '../models/discovery.model';
 
 @Injectable({ providedIn: 'root' })
 export class EstimatorApiService {
@@ -25,5 +26,9 @@ export class EstimatorApiService {
 
   exportExcel(payload: EstimateRequest): Observable<Blob> {
     return this.http.post(`${this.baseUrl}/export/excel`, payload, { responseType: 'blob' });
+  }
+
+  exportDiscoveryPdf(payload: DiscoveryExportRequest): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/export/discovery-pdf`, payload, { responseType: 'blob' });
   }
 }

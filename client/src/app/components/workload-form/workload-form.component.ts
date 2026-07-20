@@ -18,6 +18,9 @@ import {
 })
 export class WorkloadFormComponent implements OnChanges {
   @Input() catalog: Catalog | null = null;
+  // Lets a parent push in a starting selection — used both to restore a
+  // shared URL link and to load a previously saved estimate.
+  @Input() externalState: Partial<EstimateRequest> | null = null;
   @Output() formChange = new EventEmitter<EstimateRequest>();
 
   clientName = '';
@@ -31,12 +34,29 @@ export class WorkloadFormComponent implements OnChanges {
   scales: ScaleTier[] = ['small', 'medium', 'large'];
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Runs once the catalog has been fetched from the backend. Pick the
-    // first workload as a sensible default so the page isn't empty on load.
-    if (changes['catalog'] && this.catalog && !this.workloadKey) {
-      const firstKey = Object.keys(this.catalog.workloads)[0];
-      this.selectWorkload(firstKey);
+    if (this.catalog && !this.workloadKey) {
+      // First time the catalog is available — apply a URL/saved state if
+      // one was provided, otherwise fall back to the first workload.
+      this.applyState(this.externalState ?? {});
+    } else if (changes['externalState'] && this.externalState && this.catalog) {
+      // Form is already initialized — this is an explicit "load saved
+      // estimate" (or similar) action from the parent.
+      this.applyState(this.externalState);
     }
+  }
+
+  private applyState(state: Partial<EstimateRequest>): void {
+    if (!this.catalog) return;
+    const key = state.workloadKey ?? this.workloadKey ?? Object.keys(this.catalog.workloads)[0];
+    this.workloadKey = key;
+    this.cloud = state.cloud ?? this.cloud;
+    this.scale = state.scale ?? this.scale;
+    this.clientName = state.clientName ?? this.clientName;
+    const workload = this.catalog.workloads[key];
+    this.selectedServices = new Set(
+      state.services && state.services.length ? state.services : workload.recommended[this.cloud]
+    );
+    this.emitChange();
   }
 
   get workloadKeys(): string[] {

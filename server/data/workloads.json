@@ -5,7 +5,16 @@
     "recommended": {
       "AWS": ["EC2", "RDS", "S3", "Lambda"],
       "GCP": ["ComputeEngine", "CloudSQL", "CloudStorage", "CloudFunctions"]
-    }
+    },
+    "discoveryQuestions": [
+      "What is driving the migration timeline — cost, a data center exit, or a scaling limitation?",
+      "What is the current architecture (monolith, microservices, on-prem VMs)?",
+      "What is the expected peak concurrent user load?",
+      "Are there compliance or data residency requirements (e.g. data must stay in-region)?",
+      "What is the acceptable downtime window for cutover?",
+      "Is there an existing CI/CD pipeline, or does one need to be built?",
+      "Who owns infrastructure sign-off on the client side?"
+    ]
   },
   "genai-chatbot": {
     "label": "GenAI Chatbot",
@@ -13,7 +22,16 @@
     "recommended": {
       "AWS": ["Bedrock", "Lambda", "S3"],
       "GCP": ["VertexAI", "CloudFunctions", "CloudStorage"]
-    }
+    },
+    "discoveryQuestions": [
+      "What is the primary use case — customer support, internal knowledge base, or sales assistance?",
+      "What is the expected query volume per day/month?",
+      "Is there an existing knowledge base, and in what format (PDFs, wiki, database)?",
+      "Are there data privacy constraints on what can be sent to a foundation model?",
+      "Does the bot need to take actions (e.g. call APIs), or answer questions only?",
+      "What languages need to be supported?",
+      "What is the target response latency?"
+    ]
   },
   "data-pipeline": {
     "label": "Data Pipeline",
@@ -21,7 +39,16 @@
     "recommended": {
       "AWS": ["S3", "Lambda", "RDS"],
       "GCP": ["CloudStorage", "CloudFunctions", "CloudSQL"]
-    }
+    },
+    "discoveryQuestions": [
+      "What are the data sources (databases, APIs, flat files, streaming events)?",
+      "What is the expected daily data volume?",
+      "Does the pipeline need to run in batch, near-real-time, or streaming?",
+      "What transformations or business rules need to be applied?",
+      "Who consumes the output — a BI tool, another system, or end users directly?",
+      "Are there data retention or archival requirements?",
+      "What is the tolerance for data latency (minutes vs. hours)?"
+    ]
   },
   "healthcare-ai": {
     "label": "Healthcare AI",
@@ -29,6 +56,15 @@
     "recommended": {
       "AWS": ["SageMaker", "S3", "RDS"],
       "GCP": ["VertexAI", "CloudStorage", "CloudSQL"]
-    }
+    },
+    "discoveryQuestions": [
+      "What regulatory framework applies (HIPAA, local healthcare data laws)?",
+      "What is the source and format of clinical data (EHR exports, imaging, structured records)?",
+      "Is there a labeled dataset available for model training, or does one need to be created?",
+      "Who validates model outputs — a clinician-in-the-loop, or fully automated?",
+      "What is the required audit trail for predictions made?",
+      "Does inference need to happen in real time (e.g. at point of care) or in batch?",
+      "What existing systems does this need to integrate with (EHR, PACS, etc.)?"
+    ]
   }
 }

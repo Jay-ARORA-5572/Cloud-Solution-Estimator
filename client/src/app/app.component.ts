@@ -1,30 +1,64 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EstimatorApiService } from './services/estimator-api.service';
+import { UrlStateService } from './services/url-state.service';
+import { SavedEstimatesService, SavedEstimate } from './services/saved-estimates.service';
 import { Catalog, EstimateRequest, EstimateResult } from './models/estimate.model';
+import { DiscoveryQuestion } from './models/discovery.model';
 import { WorkloadFormComponent } from './components/workload-form/workload-form.component';
 import { ArchitectureDiagramComponent } from './components/architecture-diagram/architecture-diagram.component';
 import { CostTableComponent } from './components/cost-table/cost-table.component';
+import { DiscoveryQuestionnaireComponent } from './components/discovery-questionnaire/discovery-questionnaire.component';
+import { DealTrackerComponent } from './components/deal-tracker/deal-tracker.component';
+
+type TabId = 'estimator' | 'discovery' | 'deals';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, WorkloadFormComponent, ArchitectureDiagramComponent, CostTableComponent],
+  imports: [
+    CommonModule,
+    WorkloadFormComponent,
+    ArchitectureDiagramComponent,
+    CostTableComponent,
+    DiscoveryQuestionnaireComponent,
+    DealTrackerComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
+  activeTab: TabId = 'estimator';
+
   catalog: Catalog | null = null;
   estimate: EstimateResult | null = null;
   currentRequest: EstimateRequest | null = null;
   status: 'draft' | 'calculating' | 'ready' | 'error' = 'draft';
 
-  constructor(private api: EstimatorApiService) {}
+  // Populated once from the URL on load; passed into the form as its
+  // starting selection, then reused whenever "load saved estimate" fires.
+  externalState: Partial<EstimateRequest> | null = null;
+
+  savedEstimates: SavedEstimate[] = [];
+  linkCopied = false;
+  estimateSaved = false;
+
+  constructor(
+    private api: EstimatorApiService,
+    private urlState: UrlStateService,
+    private savedEstimatesService: SavedEstimatesService
+  ) {}
 
   ngOnInit(): void {
+    this.externalState = this.urlState.readFromUrl();
+    this.savedEstimates = this.savedEstimatesService.list();
     this.api.getCatalog().subscribe((data) => {
       this.catalog = data;
     });
+  }
+
+  setTab(tab: TabId): void {
+    this.activeTab = tab;
   }
 
   get statusLabel(): string {
@@ -36,8 +70,19 @@ export class AppComponent implements OnInit {
     }
   }
 
+  get currentWorkloadLabel(): string {
+    if (!this.catalog || !this.currentRequest?.workloadKey) return '';
+    return this.catalog.workloads[this.currentRequest.workloadKey]?.label ?? '';
+  }
+
+  get currentDiscoveryQuestions(): string[] {
+    if (!this.catalog || !this.currentRequest?.workloadKey) return [];
+    return this.catalog.workloads[this.currentRequest.workloadKey]?.discoveryQuestions ?? [];
+  }
+
   onFormChange(request: EstimateRequest): void {
     this.currentRequest = request;
+    this.urlState.writeToUrl(request);
 
     if (request.services.length === 0) {
       this.estimate = null;
@@ -75,6 +120,46 @@ export class AppComponent implements OnInit {
     this.api.exportExcel(this.currentRequest).subscribe((blob) => {
       this.downloadBlob(blob, 'cloud-cost-estimate.xlsx');
     });
+  }
+
+  exportDiscoveryNotes(questions: DiscoveryQuestion[]): void {
+    if (!this.currentRequest?.workloadKey) return;
+    this.api
+      .exportDiscoveryPdf({
+        workloadKey: this.currentRequest.workloadKey,
+        clientName: this.currentRequest.clientName,
+        questions,
+      })
+      .subscribe((blob) => {
+        this.downloadBlob(blob, 'discovery-call-notes.pdf');
+      });
+  }
+
+  copyShareableLink(): void {
+    navigator.clipboard.writeText(this.urlState.currentShareableLink()).then(() => {
+      this.linkCopied = true;
+      setTimeout(() => (this.linkCopied = false), 2000);
+    });
+  }
+
+  saveEstimate(): void {
+    if (!this.currentRequest || !this.estimate) return;
+    this.savedEstimatesService.save(this.currentRequest, this.estimate);
+    this.savedEstimates = this.savedEstimatesService.list();
+    this.estimateSaved = true;
+    setTimeout(() => (this.estimateSaved = false), 2000);
+  }
+
+  loadSavedEstimate(saved: SavedEstimate): void {
+    // New object reference so the form's ngOnChanges reliably fires even
+    // if the same saved estimate is loaded twice in a row.
+    this.externalState = { ...saved.request };
+  }
+
+  removeSavedEstimate(saved: SavedEstimate, event: Event): void {
+    event.stopPropagation();
+    this.savedEstimatesService.remove(saved.id);
+    this.savedEstimates = this.savedEstimatesService.list();
   }
 
   private downloadBlob(blob: Blob, filename: string): void {

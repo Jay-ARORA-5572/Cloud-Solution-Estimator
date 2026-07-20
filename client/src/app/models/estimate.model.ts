@@ -13,6 +13,7 @@ export interface WorkloadTemplate {
     AWS: string[];
     GCP: string[];
   };
+  discoveryQuestions: string[];
 }
 
 export interface Catalog {

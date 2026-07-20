@@ -170,4 +170,65 @@ function generateProposalPdf(res, { estimate, clientName, notes }) {
   doc.end();
 }
 
-module.exports = { generateProposalPdf };
+/**
+ * Streams a discovery call notes PDF: one question per block, with either
+ * the supplied notes text or a blank box to fill in by hand. Paginates
+ * automatically if the question set runs past one page.
+ */
+function generateDiscoveryPdf(res, { workloadLabel, clientName, questions }) {
+  const doc = new PDFDocument({ size: "A4", margin: 42 });
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", 'attachment; filename="discovery-call-notes.pdf"');
+  doc.pipe(res);
+
+  const leftX = doc.page.margins.left;
+  const pageWidth = doc.page.width - doc.page.margins.left - doc.page.margins.right;
+  const bottomLimit = doc.page.height - doc.page.margins.bottom;
+
+  doc.fillColor(NAVY).font("Helvetica-Bold").fontSize(20).text("Discovery Call Notes", leftX, doc.y);
+  doc.x = leftX;
+  doc.fillColor(GREY).font("Helvetica").fontSize(10).text(`Prospect: ${clientName || "Prospective Client"}`, leftX, doc.y);
+  doc.x = leftX;
+  doc.text(`Workload: ${workloadLabel}`, leftX, doc.y);
+  doc.x = leftX;
+  doc.text(`Date: ${new Date().toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })}`, leftX, doc.y);
+
+  doc.x = leftX;
+  doc.moveDown(0.7);
+  doc.strokeColor(ACCENT).lineWidth(1.5).moveTo(leftX, doc.y).lineTo(leftX + pageWidth, doc.y).stroke();
+  doc.moveDown(0.6);
+  doc.x = leftX;
+
+  questions.forEach((q, i) => {
+    const questionText = `${i + 1}. ${q.question}`;
+    const notesText = (q.notes || "").trim();
+
+    // Estimate the block height so we can page-break before it, not mid-block.
+    doc.font("Helvetica-Bold").fontSize(10);
+    const questionHeight = doc.heightOfString(questionText, { width: pageWidth });
+    const notesBoxHeight = notesText ? Math.max(34, doc.font("Helvetica").fontSize(9).heightOfString(notesText, { width: pageWidth - 16 }) + 16) : 34;
+    const blockHeight = questionHeight + notesBoxHeight + 18;
+
+    if (doc.y + blockHeight > bottomLimit) {
+      doc.addPage();
+      doc.x = leftX;
+      doc.y = doc.page.margins.top;
+    }
+
+    doc.font("Helvetica-Bold").fontSize(10).fillColor(NAVY).text(questionText, leftX, doc.y, { width: pageWidth });
+    doc.x = leftX;
+    doc.moveDown(0.25);
+
+    const boxY = doc.y;
+    doc.roundedRect(leftX, boxY, pageWidth, notesBoxHeight, 4).stroke("#d1d5db");
+    if (notesText) {
+      doc.font("Helvetica").fontSize(9).fillColor("#111827").text(notesText, leftX + 8, boxY + 8, { width: pageWidth - 16 });
+    }
+    doc.x = leftX;
+    doc.y = boxY + notesBoxHeight + 16;
+  });
+
+  doc.end();
+}
+
+module.exports = { generateProposalPdf, generateDiscoveryPdf };
