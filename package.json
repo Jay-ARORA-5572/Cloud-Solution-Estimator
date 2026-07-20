@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "node server/index.js",
-    "build:client": "cd client && npm install && npm run build"
+    "build:client": "cd client && npm install && npm run build",
+    "test": "node --test server/utils/*.test.js"
   },
   "license": "MIT",
   "dependencies": {

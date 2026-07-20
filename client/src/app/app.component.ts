@@ -10,8 +10,9 @@ import { ArchitectureDiagramComponent } from './components/architecture-diagram/
 import { CostTableComponent } from './components/cost-table/cost-table.component';
 import { DiscoveryQuestionnaireComponent } from './components/discovery-questionnaire/discovery-questionnaire.component';
 import { DealTrackerComponent } from './components/deal-tracker/deal-tracker.component';
+import { ProviderComparisonComponent } from './components/provider-comparison/provider-comparison.component';
 
-type TabId = 'estimator' | 'discovery' | 'deals';
+type TabId = 'estimator' | 'discovery' | 'deals' | 'compare';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ type TabId = 'estimator' | 'discovery' | 'deals';
     CostTableComponent,
     DiscoveryQuestionnaireComponent,
     DealTrackerComponent,
+    ProviderComparisonComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

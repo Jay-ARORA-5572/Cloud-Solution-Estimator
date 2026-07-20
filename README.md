@@ -12,6 +12,10 @@ engineer — requirement intake, pricing, architecture, discovery, and deal trac
 - **Shareable links** — the URL encodes your current selection; copy it and reopen it anywhere
 - **Saved estimates** — save a configuration to the browser and reload it later
 
+**AWS vs GCP**
+- Side-by-side cost comparison for the same workload, using each provider's recommended
+  service set, with a plain-language "X is $Y/mo cheaper" summary
+
 **Discovery Questionnaire**
 - Auto-generated discovery checklist per workload (e.g. GenAI Chatbot vs. Healthcare AI ask
   different questions)
@@ -43,7 +47,6 @@ _Add screenshots of the running app here — see "Running locally" below._
 - **Persistence:** localStorage for saved estimates and deals (no database — see Notes below)
 
 ## Running locally
-
 ```bash
 npm run build:client   # builds the Angular app
 npm install             # installs server dependencies
@@ -55,6 +58,16 @@ For frontend development with hot reload:
 ```bash
 cd client && npm install && npm start   # http://localhost:4200
 ```
+
+### Running tests
+
+```bash
+npm test
+```
+
+Covers the cost calculation logic in `server/utils/estimate.js` (sum correctness, annual
+total math, error handling for bad input, and the AWS-vs-GCP comparison logic) using Node's
+built-in test runner — no extra dependencies.
 
 ## Project structure
 

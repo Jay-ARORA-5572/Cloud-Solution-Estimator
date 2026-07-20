@@ -3,7 +3,7 @@ const router = express.Router();
 
 const pricing = require("../data/pricing.json");
 const workloads = require("../data/workloads.json");
-const { computeEstimate } = require("../utils/estimate");
+const { computeEstimate, computeComparison } = require("../utils/estimate");
 const { generateProposalPdf, generateDiscoveryPdf } = require("../utils/pdfGenerator");
 const { generateEstimateExcel } = require("../utils/excelGenerator");
 
@@ -57,6 +57,17 @@ router.post("/export/discovery-pdf", (req, res) => {
       return res.status(400).json({ error: "questions array is required" });
     }
     generateDiscoveryPdf(res, { workloadLabel: workload.label, clientName, questions });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// POST /api/compare - AWS vs GCP side-by-side for the same workload/scale
+router.post("/compare", (req, res) => {
+  try {
+    const { workloadKey, scale } = req.body;
+    const comparison = computeComparison({ workloadKey, scale });
+    res.json(comparison);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

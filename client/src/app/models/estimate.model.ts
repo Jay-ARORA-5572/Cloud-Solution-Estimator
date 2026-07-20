@@ -51,3 +51,17 @@ export interface EstimateRequest {
   clientName?: string;
   notes?: string;
 }
+
+export interface ComparisonRequest {
+  workloadKey: string;
+  scale: ScaleTier;
+}
+
+export interface ComparisonResult {
+  workload: WorkloadTemplate & { key: string };
+  scale: ScaleTier;
+  aws: EstimateResult;
+  gcp: EstimateResult;
+  cheaper: 'AWS' | 'GCP' | 'tie';
+  monthlyDifference: number;
+}

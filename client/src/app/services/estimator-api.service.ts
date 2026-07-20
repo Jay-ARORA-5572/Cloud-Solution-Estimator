@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Catalog, EstimateRequest, EstimateResult } from '../models/estimate.model';
+import { Catalog, ComparisonRequest, ComparisonResult, EstimateRequest, EstimateResult } from '../models/estimate.model';
 import { DiscoveryExportRequest } from '../models/discovery.model';
 
 @Injectable({ providedIn: 'root' })
@@ -30,5 +30,9 @@ export class EstimatorApiService {
 
   exportDiscoveryPdf(payload: DiscoveryExportRequest): Observable<Blob> {
     return this.http.post(`${this.baseUrl}/export/discovery-pdf`, payload, { responseType: 'blob' });
+  }
+
+  compare(payload: ComparisonRequest): Observable<ComparisonResult> {
+    return this.http.post<ComparisonResult>(`${this.baseUrl}/compare`, payload);
   }
 }

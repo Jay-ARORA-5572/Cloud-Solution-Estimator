@@ -50,4 +50,35 @@ function computeEstimate({ cloud, scale, services, workloadKey }) {
   };
 }
 
-module.exports = { computeEstimate, VALID_SCALES };
+/**
+ * Computes an AWS estimate and a GCP estimate for the same workload/scale,
+ * using each provider's recommended service set, so the two sides are a
+ * fair apples-to-apples comparison rather than whatever services the user
+ * happens to have manually toggled on one side.
+ */
+function computeComparison({ workloadKey, scale }) {
+  const workload = workloads[workloadKey];
+  if (!workload) {
+    throw new Error(`Unknown workload "${workloadKey}"`);
+  }
+
+  const aws = computeEstimate({
+    cloud: "AWS",
+    scale,
+    services: workload.recommended.AWS,
+    workloadKey,
+  });
+  const gcp = computeEstimate({
+    cloud: "GCP",
+    scale,
+    services: workload.recommended.GCP,
+    workloadKey,
+  });
+
+  const diff = Math.round((aws.monthlyTotal - gcp.monthlyTotal) * 100) / 100;
+  const cheaper = diff === 0 ? "tie" : diff > 0 ? "GCP" : "AWS";
+
+  return { workload: { key: workloadKey, ...workload }, scale, aws, gcp, cheaper, monthlyDifference: Math.abs(diff) };
+}
+
+module.exports = { computeEstimate, computeComparison, VALID_SCALES };

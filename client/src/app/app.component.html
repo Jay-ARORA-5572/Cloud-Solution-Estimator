@@ -22,6 +22,9 @@
     <button class="tab-btn" [class.active]="activeTab === 'deals'" (click)="setTab('deals')">
       Deal Tracker
     </button>
+    <button class="tab-btn" [class.active]="activeTab === 'compare'" (click)="setTab('compare')">
+      AWS vs GCP
+    </button>
   </nav>
 
   <!-- ESTIMATOR TAB -->
@@ -121,6 +124,21 @@
         [prefillWorkloadLabel]="currentWorkloadLabel"
         [prefillMonthlyTotal]="estimate?.monthlyTotal ?? null"
       ></app-deal-tracker>
+    </section>
+  </main>
+
+  <!-- COMPARE TAB -->
+  <main class="layout single" *ngIf="activeTab === 'compare'">
+    <section class="panel">
+      <div class="panel-header">
+        <span class="step-index">04</span>
+        <h2>AWS vs GCP</h2>
+      </div>
+      <app-provider-comparison
+        [workloadKey]="currentRequest?.workloadKey ?? null"
+        [workloadLabel]="currentWorkloadLabel"
+        [scale]="currentRequest?.scale ?? 'medium'"
+      ></app-provider-comparison>
     </section>
   </main>
 </div>
