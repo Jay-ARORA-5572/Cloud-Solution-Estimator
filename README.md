@@ -3,6 +3,9 @@
 A small pre-sales toolkit built to replicate the core workflow of a cloud pre-sales
 engineer — requirement intake, pricing, architecture, discovery, and deal tracking.
 
+**Live demo:** https://cloud-solution-estimator.onrender.com
+*(free-tier hosting — spins down after inactivity, so the first load can take ~30-50s to wake up)*
+
 ## Features
 
 **Estimator**
