@@ -37,10 +37,6 @@ actual deliverables that role produces day to day: pricing estimates across AWS 
 (including GenAI services like Bedrock, SageMaker, and Vertex AI), architecture diagrams,
 discovery questionnaires, client-facing proposal drafts, and deal tracking.
 
-## Screenshots
-
-_Add screenshots of the running app here — see "Running locally" below._
-
 ## Tech stack
 
 - **Frontend:** Angular 17 (standalone components)
