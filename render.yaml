@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: cloud-solution-estimator
+    runtime: node
+    plan: free
+    buildCommand: npm run build:client && npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0
