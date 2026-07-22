@@ -14,7 +14,10 @@
 .compare-banner.tie { background: #f3f4f6; border-color: var(--line); }
 
 .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.compare-col { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+@media (max-width: 560px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}
+.compare-col { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
 .col-header {
   padding: 10px 14px;
   font-weight: 700;

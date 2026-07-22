@@ -6,7 +6,7 @@
   margin-bottom: 18px;
   flex-wrap: wrap;
 }
-.manual-add { display: flex; gap: 8px; }
+.manual-add { display: flex; gap: 8px; flex-wrap: wrap; }
 .manual-add input {
   font-family: var(--sans);
   font-size: 13px;
@@ -15,7 +15,8 @@
   border: 1px solid var(--line);
   background: #fbfcfe;
   outline: none;
-  min-width: 180px;
+  min-width: 0;
+  flex: 1 1 160px;
 }
 .manual-add input:focus { border-color: var(--accent); background: #fff; }
 
@@ -36,7 +37,12 @@
 .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.deal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.deal-table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 13px; }
 .deal-table th {
   text-align: left;
   font-size: 11px;

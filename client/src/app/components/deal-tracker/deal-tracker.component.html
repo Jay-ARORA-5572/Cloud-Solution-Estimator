@@ -8,32 +8,34 @@
   </div>
 </div>
 
-<table class="deal-table" *ngIf="deals.length; else emptyState">
-  <thead>
-    <tr>
-      <th>Prospect</th>
-      <th>Workload</th>
-      <th>Est. monthly</th>
-      <th>Stage</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let deal of deals">
-      <td>{{ deal.clientName }}</td>
-      <td class="muted">{{ deal.workloadLabel }}</td>
-      <td class="num">{{ deal.monthlyTotal !== null ? ('$' + deal.monthlyTotal.toLocaleString()) : '—' }}</td>
-      <td>
-        <select [(ngModel)]="deal.stage" (ngModelChange)="updateStage(deal, $event)" [class]="'stage-' + deal.stage.replace(' ', '')">
-          <option *ngFor="let s of stages" [value]="s">{{ s }}</option>
-        </select>
-      </td>
-      <td>
-        <button class="remove-btn" (click)="remove(deal)" title="Remove">✕</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-scroll">
+  <table class="deal-table" *ngIf="deals.length; else emptyState">
+    <thead>
+      <tr>
+        <th>Prospect</th>
+        <th>Workload</th>
+        <th>Est. monthly</th>
+        <th>Stage</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let deal of deals">
+        <td>{{ deal.clientName }}</td>
+        <td class="muted">{{ deal.workloadLabel }}</td>
+        <td class="num">{{ deal.monthlyTotal !== null ? ('$' + deal.monthlyTotal.toLocaleString()) : '—' }}</td>
+        <td>
+          <select [(ngModel)]="deal.stage" (ngModelChange)="updateStage(deal, $event)" [class]="'stage-' + deal.stage.replace(' ', '')">
+            <option *ngFor="let s of stages" [value]="s">{{ s }}</option>
+          </select>
+        </td>
+        <td>
+          <button class="remove-btn" (click)="remove(deal)" title="Remove">✕</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <ng-template #emptyState>
   <div class="empty-state">No deals tracked yet. Add your current estimate, or a prospect name, above.</div>
