@@ -4,7 +4,7 @@
       <span class="brand-mark">CSE</span>
       <div class="brand-text">
         <h1>Cloud Solution Estimator</h1>
-        <p>Pricing · Architecture · Discovery · Deal tracking — in one pass</p>
+        <p>Pricing · Discovery · Deal tracking — in one pass</p>
       </div>
     </div>
     <div class="topbar-meta">
@@ -59,15 +59,6 @@
     <section class="panel preview-panel">
       <div class="panel-header">
         <span class="step-index">02</span>
-        <h2>Proposed architecture</h2>
-      </div>
-      <app-architecture-diagram
-        [lineItems]="estimate?.lineItems ?? []"
-        [cloud]="currentRequest?.cloud ?? 'AWS'"
-      ></app-architecture-diagram>
-
-      <div class="panel-header panel-header-tight">
-        <span class="step-index">03</span>
         <h2>Cost estimate</h2>
       </div>
       <app-cost-table [estimate]="estimate"></app-cost-table>
@@ -96,7 +87,7 @@
   <main class="layout single" *ngIf="activeTab === 'discovery'">
     <section class="panel">
       <div class="panel-header">
-        <span class="step-index">02</span>
+        <span class="step-index">01</span>
         <h2>Discovery questionnaire</h2>
       </div>
       <app-discovery-questionnaire
@@ -115,7 +106,7 @@
   <main class="layout single" *ngIf="activeTab === 'deals'">
     <section class="panel">
       <div class="panel-header">
-        <span class="step-index">03</span>
+        <span class="step-index">01</span>
         <h2>Deal tracker</h2>
       </div>
       <app-deal-tracker
@@ -131,7 +122,7 @@
   <main class="layout single" *ngIf="activeTab === 'compare'">
     <section class="panel">
       <div class="panel-header">
-        <span class="step-index">04</span>
+        <span class="step-index">01</span>
         <h2>AWS vs GCP</h2>
       </div>
       <app-provider-comparison

@@ -3,55 +3,9 @@ const PDFDocument = require("pdfkit");
 const NAVY = "#1f2937";
 const GREY = "#6b7280";
 const ACCENT = "#2563eb";
-const LIGHT = "#eef2ff";
 
 function money(n) {
   return `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
-/**
- * Draws a simple boxes-and-arrows architecture diagram for the selected services.
- * Returns the y-coordinate immediately below the diagram.
- */
-function drawArchitecture(doc, leftX, y, width, lineItems) {
-  const boxW = 110;
-  const boxH = 46;
-  const gap = (width - boxW * lineItems.length) / Math.max(lineItems.length - 1, 1);
-  const clampedGap = Math.max(Math.min(gap, 40), 16);
-  const totalW = boxW * lineItems.length + clampedGap * (lineItems.length - 1);
-  const startX = leftX + (width - totalW) / 2;
-  const boxY = y;
-
-  const centers = [];
-  lineItems.forEach((item, i) => {
-    const bx = startX + i * (boxW + clampedGap);
-    doc.roundedRect(bx, boxY, boxW, boxH, 6).fillAndStroke(LIGHT, ACCENT);
-    doc
-      .fillColor(NAVY)
-      .fontSize(8)
-      .font("Helvetica-Bold")
-      .text(item.label, bx + 6, boxY + 10, { width: boxW - 12, align: "center", lineBreak: true });
-    doc
-      .fontSize(7)
-      .font("Helvetica")
-      .fillColor(GREY)
-      .text(item.desc, bx + 6, boxY + 24, { width: boxW - 12, align: "center", lineBreak: true });
-    centers.push({ y: boxY + boxH / 2, right: bx + boxW, left: bx });
-  });
-
-  doc.strokeColor(ACCENT).lineWidth(1.2);
-  for (let i = 0; i < centers.length - 1; i++) {
-    const a = centers[i];
-    const b = centers[i + 1];
-    doc.moveTo(a.right, a.y).lineTo(b.left, b.y).stroke();
-    doc.moveTo(b.left - 5, b.y - 3).lineTo(b.left, b.y).lineTo(b.left - 5, b.y + 3).stroke();
-  }
-
-  // Reset the cursor so subsequent doc.text(...) calls (which read doc.x/doc.y
-  // when no explicit position is given) don't inherit the diagram's last x position.
-  doc.x = leftX;
-  doc.y = boxY + boxH + 14;
-  return doc.y;
 }
 
 function sectionHeading(doc, leftX, text) {
@@ -108,14 +62,8 @@ function generateProposalPdf(res, { estimate, clientName, notes }) {
   doc.x = leftX;
   doc.moveDown(0.6);
 
-  // 2. Proposed Architecture
-  sectionHeading(doc, leftX, "2. Proposed Architecture");
-  drawArchitecture(doc, leftX, doc.y + 4, pageWidth, estimate.lineItems);
-  doc.moveDown(0.4);
-  doc.x = leftX;
-
-  // 3. Cost Estimate table
-  sectionHeading(doc, leftX, "3. Estimated Monthly Cost");
+  // 2. Cost Estimate table
+  sectionHeading(doc, leftX, "2. Estimated Monthly Cost");
   const colService = leftX;
   const colDesc = leftX + 150;
   const colCost = leftX + pageWidth - 90;
@@ -150,8 +98,8 @@ function generateProposalPdf(res, { estimate, clientName, notes }) {
   doc.x = leftX;
   doc.y = ty;
 
-  // 4. Assumptions
-  sectionHeading(doc, leftX, "4. Assumptions & Next Steps");
+  // 3. Assumptions
+  sectionHeading(doc, leftX, "3. Assumptions & Next Steps");
   doc.font("Helvetica").fontSize(9).fillColor("#111827");
   const bullets = [
     `Pricing reflects a ${estimate.scale} deployment tier and is indicative, not a formal quote.`,

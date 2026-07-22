@@ -6,7 +6,6 @@ import { SavedEstimatesService, SavedEstimate } from './services/saved-estimates
 import { Catalog, EstimateRequest, EstimateResult } from './models/estimate.model';
 import { DiscoveryQuestion } from './models/discovery.model';
 import { WorkloadFormComponent } from './components/workload-form/workload-form.component';
-import { ArchitectureDiagramComponent } from './components/architecture-diagram/architecture-diagram.component';
 import { CostTableComponent } from './components/cost-table/cost-table.component';
 import { DiscoveryQuestionnaireComponent } from './components/discovery-questionnaire/discovery-questionnaire.component';
 import { DealTrackerComponent } from './components/deal-tracker/deal-tracker.component';
@@ -20,7 +19,6 @@ type TabId = 'estimator' | 'discovery' | 'deals' | 'compare';
   imports: [
     CommonModule,
     WorkloadFormComponent,
-    ArchitectureDiagramComponent,
     CostTableComponent,
     DiscoveryQuestionnaireComponent,
     DealTrackerComponent,

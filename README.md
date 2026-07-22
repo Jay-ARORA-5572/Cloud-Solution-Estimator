@@ -1,7 +1,7 @@
 # Cloud Solution Estimator
 
 A small pre-sales toolkit built to replicate the core workflow of a cloud pre-sales
-engineer — requirement intake, pricing, architecture, discovery, and deal tracking.
+engineer — requirement intake, pricing, discovery, and deal tracking.
 
 **Live demo:** https://cloud-solution-estimator.onrender.com
 *(free-tier hosting — spins down after inactivity, so the first load can take ~30-50s to wake up)*
@@ -9,8 +9,8 @@ engineer — requirement intake, pricing, architecture, discovery, and deal trac
 ## Features
 
 **Estimator**
-- Live architecture diagram + cost breakdown as you pick a workload, cloud (AWS/GCP), and scale
-- One-page PDF proposal export (requirement summary, architecture, cost table, assumptions)
+- Live cost breakdown as you pick a workload, cloud (AWS/GCP), and scale
+- One-page PDF proposal export (requirement summary, cost table, assumptions)
 - Excel cost breakdown export
 - **Shareable links** — the URL encodes your current selection; copy it and reopen it anywhere
 - **Saved estimates** — save a configuration to the browser and reload it later
@@ -34,8 +34,8 @@ engineer — requirement intake, pricing, architecture, discovery, and deal trac
 
 Built while preparing for a Pre-Sales Engineer internship application, to demonstrate the
 actual deliverables that role produces day to day: pricing estimates across AWS and GCP
-(including GenAI services like Bedrock, SageMaker, and Vertex AI), architecture diagrams,
-discovery questionnaires, client-facing proposal drafts, and deal tracking.
+(including GenAI services like Bedrock, SageMaker, and Vertex AI), discovery questionnaires,
+client-facing proposal drafts, and deal tracking.
 
 ## Tech stack
 
@@ -90,7 +90,6 @@ client/                        # Angular 17 app (standalone components)
       deal-tracker.service.ts     # localStorage CRUD for tracked deals
     components/
       workload-form/               # Client name, workload, cloud/scale, service checklist
-      architecture-diagram/        # Boxes-and-arrows diagram
       cost-table/                   # Line items + totals
       discovery-questionnaire/      # Per-workload discovery checklist + notes
       deal-tracker/                  # Deal pipeline table
@@ -109,6 +108,9 @@ client/                        # Angular 17 app (standalone components)
 - Wire up the real AWS Price List API for live, always-current pricing
 - Add a GCP Pricing Calculator API integration
 - Move saved estimates/deals to a real backend + database
+- **Re-add a live architecture diagram** (boxes-and-arrows visualization of selected services,
+  both on-screen and in the PDF proposal) — was in an earlier version, removed for scope, and
+  is the top candidate for a future pass
 - Add draw.io/Lucidchart export for the architecture diagram
 
 ## License
